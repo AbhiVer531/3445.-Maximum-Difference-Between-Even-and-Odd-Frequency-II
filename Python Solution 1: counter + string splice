@@ -1,0 +1,20 @@
+class Solution:
+    def maxDifference(self, s: str, k: int) -> int:
+        n = len(s)
+        overallmax = float('-inf')
+        for i in range(n - k + 1):
+            substring = s[i:i + k]
+            freq = Counter(substring)
+            for j in range(i + k, n + 1):
+                if j > i + k:
+                    freq[s[j - 1]] += 1 
+                maxodd = float('-inf')
+                mineven = float('inf')
+                for val in freq.values():
+                    if val % 2 == 1:
+                        maxodd = max(maxodd, val)
+                    else:
+                        mineven = min(mineven, val)
+                if maxodd != float('-inf') and mineven != float('inf'):
+                    overallmax = max(overallmax, maxodd - mineven)
+        return overallmax if overallmax != float('-inf') else -1
